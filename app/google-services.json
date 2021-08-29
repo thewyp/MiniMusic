@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "644670324352",
+    "project_id": "minimusic-a0103",
+    "storage_bucket": "minimusic-a0103.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:644670324352:android:eefc49f055fbbc867e3065",
+        "android_client_info": {
+          "package_name": "com.thewyp.minimusic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "644670324352-74lve9l14hsf80d159sh1nm7clohvkhm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVJ9b_AVBCFUy7hYcV5Ce23Jy-RdIGNGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "644670324352-74lve9l14hsf80d159sh1nm7clohvkhm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
