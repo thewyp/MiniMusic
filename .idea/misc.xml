@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/drawable/ic_play.xml" value="0.25555555555555554" />
         <entry key="app/src/main/res/drawable/ic_playlist.xml" value="0.25555555555555554" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.25555555555555554" />
+        <entry key="app/src/main/res/drawable/ic_skip_previous.xml" value="0.2677083333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.12234042553191489" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.17074275362318841" />
         <entry key="app/src/main/res/layout/fragment_song.xml" value="0.15896739130434784" />

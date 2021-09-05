@@ -1,5 +1,6 @@
 package com.thewyp.minimusic.exoplayer
 
+import android.app.Notification
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
@@ -7,15 +8,17 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
+import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
+import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.thewyp.minimusic.exoplayer.callbacks.MusicPlaybackPreparer
 import com.thewyp.minimusic.exoplayer.callbacks.MusicPlayerEventListener
-import com.thewyp.minimusic.exoplayer.callbacks.MusicPlayerNotificationListener
+import com.thewyp.minimusic.other.Constants
 import com.thewyp.minimusic.other.Constants.MEDIA_ROOT_ID
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -79,7 +82,7 @@ class MusicService : MediaBrowserServiceCompat() {
         musicNotificationManager = MusicNotificationManager(
             this,
             mediaSession.sessionToken,
-            MusicPlayerNotificationListener(this)
+            MusicPlayerNotificationListener()
         ) {
             curSongDuration = exoPlayer.duration
         }
@@ -169,6 +172,31 @@ class MusicService : MediaBrowserServiceCompat() {
                 if (!resultsSent) {
                     result.detach()
                 }
+            }
+        }
+    }
+
+    inner class MusicPlayerNotificationListener() : PlayerNotificationManager.NotificationListener {
+
+        override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
+            super.onNotificationCancelled(notificationId, dismissedByUser)
+            stopForeground(true)
+            isForegroundService = false
+            stopSelf()
+        }
+
+        override fun onNotificationPosted(
+            notificationId: Int,
+            notification: Notification,
+            ongoing: Boolean
+        ) {
+            if(ongoing && !isForegroundService) {
+                ContextCompat.startForegroundService(
+                    applicationContext,
+                    Intent(applicationContext, this::class.java)
+                )
+                startForeground(Constants.NOTIFICATION_ID, notification)
+                isForegroundService = true
             }
         }
     }

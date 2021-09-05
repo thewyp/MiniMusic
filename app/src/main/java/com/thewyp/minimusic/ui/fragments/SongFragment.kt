@@ -17,6 +17,7 @@ import com.thewyp.minimusic.other.Status
 import com.thewyp.minimusic.ui.viewmodels.MainViewModel
 import com.thewyp.minimusic.ui.viewmodels.SongViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -95,6 +96,7 @@ class SongFragment : Fragment(R.layout.fragment_song) {
             }
         }
         mainViewModel.curPlayingSong.observe(viewLifecycleOwner) {
+            Timber.d("curPlayingMediaMetadata:$it")
             if(it == null) return@observe
             curPlayingSong = it.toSong()
             updateTitleAndSongImage(curPlayingSong!!)
@@ -109,14 +111,16 @@ class SongFragment : Fragment(R.layout.fragment_song) {
         songViewModel.curPlayerPosition.observe(viewLifecycleOwner) {
             if(shouldUpdateSeekbar) {
                 binding.seekBar.progress = it.toInt()
-                val dateFormat = SimpleDateFormat("mm:ss", Locale.getDefault())
-                binding.tvCurTime.text = dateFormat.format(it)
+                setCurPlayerTimeToTextView(it)
             }
         }
         songViewModel.curSongDuration.observe(viewLifecycleOwner) {
+            Timber.d("curSongDuration:$it")
             binding.seekBar.max = it.toInt()
             val dateFormat = SimpleDateFormat("mm:ss", Locale.getDefault())
-            binding.tvSongDuration.text = dateFormat.format(it)
+            val songDuration = dateFormat.format(it)
+            Timber.d("curSongDuration:$songDuration")
+            binding.tvSongDuration.text = songDuration
         }
     }
 
